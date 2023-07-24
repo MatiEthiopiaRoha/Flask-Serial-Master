@@ -1,4 +1,4 @@
-from flask import Flask,Response,request, jsonify
+from flask import Flask,Response,render_template,request, jsonify
 import datetime
 import time
 import logging as logger
@@ -77,8 +77,13 @@ def create():
         print(color.RED + "Something went wrong " + msg + color.END + "\n")
     finally:
         print(color.BLUE + "Operation finished \t ")
-    
     return msg
+
+
+
+@app.route('/application')
+def application():
+   return render_template('index.html')
 
 
 
