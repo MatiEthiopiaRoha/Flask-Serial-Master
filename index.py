@@ -1,6 +1,8 @@
-from flask import Flask,request, jsonify
+from flask import Flask,Response,request, jsonify
+import datetime
 import time
 import logging as logger
+import serial
 
 logger.basicConfig(level="DEBUG")
 
@@ -20,6 +22,9 @@ class color:
 app = Flask(__name__)
 
 
+# ser = serial.Serial('COM3')
+#ser.flush()
+time_now = datetime.datetime.now()
 @app.route('/')
 def home():
     return '''SERIAL API MASTER
@@ -27,22 +32,11 @@ def home():
 
 
 
-@app.route('/head', methods=['POST'])
-def head():
-    req = request.get_json()
-    dpt = req['dpt']
-    ip = req['ip']
-  
-    # p = escpos.printer.Network(ip, port=9100)
-
-    # print(ip)
-
-    
-    # p.text(color.BOLD + "THE BRICK HOUSE \t " + ip + color.END + "\n \n")
-    # p.text("item" + " \t" +  "Quantity\n")
-    # p.close()
-
-    return ''
+@app.route('/status', methods=['POST'])
+def status():
+     data = 'Server Status Ok'
+     return Response(data, mimetype='application/json')
+     
 
 
 
