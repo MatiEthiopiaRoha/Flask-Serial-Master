@@ -10,16 +10,130 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <title>HELLO ARDUINO</title>
+    <link rel="icon" type="image/x-icon" href="/static/logo.png">
+    <style>
+        .logo-img {
+            padding-left: 10px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+
+            transform: translateY(100%);
+            opacity: 0;
+
+            transition:
+                opacity 500ms,
+                transform 500ms;
+        }
+
+        .toast.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-body {
+            margin: 28px;
+            padding: 20px 24px;
+
+            font-size: larger;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            background-color: lightskyblue;
+            color: darkblue;
+
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
 <body>
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="/application">
+            <div class="logo-img">
+                <img src="/static/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            </div>
+        </a>
+    </nav>
+
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="">SERIAL PORT</label>
+                    <select class="form-select">
+                        <option value="COM1">COM1</option>
+                        <option value="COM2">COM2</option>
+                        <option value="COM3">COM3</option>
+                        <option value="COM4">COM4</option>
+                        <option value="COM5">COM5</option>
+                        <option value="COM6">COM6</option>
+                        <option value="COM7">COM7</option>
+                        <option value="COM8">COM8</option>
+                        <option value="COM9">COM9</option>
+                        <option value="COM10">COM10</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="">BAUD RATE</label>
+                    <select class="form-select">
+                        <option value="9600">9600</option>
+                        <option value="14400">14400</option>
+                        <option value="19200">19200</option>
+                        <option value="28800">28800</option>
+                        <option value="31250">31250</option>
+                        <option value="38400">38400</option>
+                        <option value="57600">57600</option>
+                        <option value="115200">115200</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <br>
+                    <button type="button" class="btn btn-dark">CONNECT</button>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="">STATUS: <p id="status"></p></label>
+                </div>
+                <div class="col-md-6">
+                    <label for="">STATUS: <p id="status"></p></label>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section>
         <div class="container">
             <div class="text-center">
-                <p>Hello</p>
+                <p id="data"></p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <button id="showBtn">Show</button>
+        <button id="hideBtn">Hide</button>
+        
+        <div class="toast" id="toast">
+            <div class="toast-body">
             </div>
         </div>
     </section>
 </body>
+<script>
+    const toast = document.getElementById('toast');
+
+    document.getElementById('showBtn').addEventListener('click', function() {
+        toast.querySelector('.toast-body').innerHTML = "Toast notification is working ...";
+        toast.classList.add('visible');
+    });
+    document.getElementById('hideBtn').addEventListener('click', function() {
+        toast.classList.remove('visible');
+    });
+</script>
 
 </html>
