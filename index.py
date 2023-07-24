@@ -19,7 +19,7 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='static')
 
 
 @app.route('/')
@@ -71,7 +71,7 @@ def create():
                 print(data)
             print(color.GREEN + "Arduino PORT:\t " + port + color.END + "Time" + time_now + "\n")
         elif ser.is_open == False:
-            print(color.CYAN + "PORT Closed:\t " + port + color.END + "Time" + time_now + "\n")                
+            print(color.CYAN +  "PORT Closed:\t  " + port + color.END + "Time" + time_now + "\n")                
     except:
         msg = "Not Connected to \t" + port
         print(color.RED + "Something went wrong " + msg + color.END + "\n")
@@ -84,6 +84,11 @@ def create():
 @app.route('/application')
 def application():
    return render_template('index.html')
+
+
+@app.route('/test')
+def test():
+   return render_template('test.html')
 
 
 

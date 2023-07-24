@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toaster Example</title>
+    <!-- toastr -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+</head>
+
+<body>
+    <button id="btnInfo">Info</button>
+    <button id="btnSuccess">Success</button>
+    <button id="btnError">Error</button>
+    <button id="btnWarning">Warning</button>
+
+    <!-- jquery -->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <!-- toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+    <!-- core script  -->
+    <script type="text/javascript">
+        // consts 
+        const btnInfo = document.getElementById('btnInfo');
+        const btnSuccess = document.getElementById('btnSuccess');
+        const btnError = document.getElementById('btnError');
+        const btnWarning = document.getElementById('btnWarning');
+
+        // Event Listeners
+        btnInfo.addEventListener('click', displayInfoToaster);
+        btnSuccess.addEventListener('click', displaySuccessToaster);
+        btnError.addEventListener('click', displayErrorToaster);
+        btnWarning.addEventListener('click', displayWarningToaster);
+
+        // functions
+        function displayInfoToaster() {
+            toastr.options.timeOut = 1500; // 1.5s 
+            toastr.info('info messages');
+        }
+
+        function displaySuccessToaster() {
+            toastr.options.timeOut = 1500; // 1.5s 
+            toastr.success('Success messages');
+        }
+
+        function displayErrorToaster() {
+            toastr.options.timeOut = 1500; // 1.5s 
+            toastr.error('errors messages');
+        }
+
+        function displayWarningToaster() {
+            toastr.options.timeOut = 1500; // 1.5s 
+            toastr.warning('warning messages');
+        }
+    </script>
+</body>
+
+</html>
