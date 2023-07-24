@@ -22,9 +22,6 @@ class color:
 app = Flask(__name__)
 
 
-# ser = serial.Serial('COM3')
-#ser.flush()
-time_now = datetime.datetime.now()
 @app.route('/')
 def home():
     return '''SERIAL API MASTER
@@ -32,11 +29,56 @@ def home():
 
 
 
-@app.route('/status', methods=['POST'])
+@app.route('/status', methods=['GET'])
 def status():
      data = 'Server Status Ok'
      return Response(data, mimetype='application/json')
      
+
+
+@app.route('/get-data', methods=['POST'])
+def create():
+    req = request.get_json()
+    port = req['port']
+    baudrate = req['baudrate']
+    msg = ""
+    print(color.BOLD + "Arduino Serial Master\t " + port  + color.END + "\n")
+    try:
+        time_now = datetime.datetime.now()
+        # ser = serial.Serial(port)
+        # ser.flush()
+        # ser.baudrate = baudrate
+        # ser.open()
+        
+        ser = serial.Serial(
+        # Serial Port to read the data from
+        port=port,
+        #Rate at which the information is shared to the communication channel
+        baudrate = baudrate,
+        #Applying Parity Checking (none in this case)
+        parity=serial.PARITY_NONE,
+        # Pattern of Bits to be read
+        stopbits=serial.STOPBITS_ONE,
+        # Total number of bits to be read
+        bytesize=serial.EIGHTBITS,
+        # Number of serial commands to accept before timing out
+        timeout=1
+        )
+        ser.open()
+        if ser.is_open == True:
+            while 1:
+                data = ser.readline()
+                print(data)
+            print(color.GREEN + "Arduino PORT:\t " + port + color.END + "Time" + time_now + "\n")
+        elif ser.is_open == False:
+            print(color.CYAN + "PORT Closed:\t " + port + color.END + "Time" + time_now + "\n")                
+    except:
+        msg = "Not Connected to \t" + port
+        print(color.RED + "Something went wrong " + msg + color.END + "\n")
+    finally:
+        print(color.BLUE + "Operation finished \t ")
+    
+    return msg
 
 
 
