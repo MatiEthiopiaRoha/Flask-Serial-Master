@@ -95,6 +95,8 @@
         </div>
     </section>
 
+
+
     <section>
         <div class="container">
             <div class="text-center">
@@ -119,37 +121,59 @@
             <canvas id="serialChart" style="width:100%;"></canvas>
         </div>
     </section>
+
+    <br>
+    <hr>
+    <br>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-primary">START MOTER</button>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-primary">STOP MOTER</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <br>
+    <hr>
+    <br>
+
 </body>
 <script>
-    const xValues = [0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000];
+    const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
     const serialChart = new Chart("serialChart", {
         type: "line",
         data: {
             labels: xValues,
             datasets: [{
                 label: 'Temperature',
-                data: [65, 59, 80, 81, 56, 55, 40,59, 80, 81, 56, 55, 40,59, 80, 81, 56, 55, 40],
+                data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55, 40],
                 fill: false,
                 borderColor: '#34A853',
                 tension: 0.1
             },
             {
                 label: 'Humidity',
-                data: [65, 59, 80, 81, 56, 55, 40,56, 55, 40,59, 80, 81, 56, 55, 40],
+                data: [65, 59, 80, 81, 56, 55, 40, 56, 55, 40, 59, 80, 81, 56, 55, 40],
                 fill: false,
                 borderColor: '#FBBC05',
                 tension: 0.1
             },
             {
                 label: 'Moisture',
-                data: [65, 59, 80, 81, 56, 40,59, 80, 81, 56, 55, 40,59, 80, 81, 56, 55, 40],
+                data: [65, 59, 80, 81, 56, 40, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55, 40],
                 fill: false,
                 borderColor: '#EA4335',
                 tension: 0.1
             }]
         },
         options: {
-            legend: {display: false}
+            legend: { display: false }
         }
     });
 
