@@ -1,3 +1,10 @@
+
+<h1>Windows</h1>
+// python -m pip install flask
+// python -m pip install pyserial
+// python -m pip install logger
+
+<h1>Linux</h1>
 //Install Flask
 pip install Flask
 

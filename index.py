@@ -1,4 +1,4 @@
-from flask import Flask,Response,render_template,request, jsonify
+from flask import *
 import datetime
 import time
 import logging as logger
@@ -86,9 +86,6 @@ def application():
    return render_template('index.html')
 
 
-@app.route('/test')
-def test():
-   return render_template('test.html')
 
 
 

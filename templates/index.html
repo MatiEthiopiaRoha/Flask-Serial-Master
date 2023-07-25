@@ -96,6 +96,29 @@
     </section>
 
 
+    <br>
+    <hr>
+    <br>
+
+    <section>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary" onclick="start()">START</button>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary" onclick="stop()">PAUSE</button>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary" onclick="location.reload()">RELOAD</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <br>
+    <hr>
+    <br>
 
     <section>
         <div class="container">
@@ -127,7 +150,7 @@
     <br>
 
     <section>
-        <div class="container">
+        <div class="container text-center">
             <div class="row">
                 <div class="col-md-6">
                     <button type="button" class="btn btn-primary">START MOTER</button>
@@ -138,6 +161,8 @@
             </div>
         </div>
     </section>
+
+
 
     <br>
     <hr>
@@ -196,6 +221,66 @@
         toastr.options.timeOut = 1500; // 1.5s 
         toastr.warning('warning messages');
     }
+
+
+    // Controls
+
+
+    // Test Function
+
+    function time() {
+        var d = new Date();
+        var s = d.getSeconds();
+        var m = d.getMinutes();
+        var h = d.getHours();
+        console.log(h + ":" + m + ":" + s)
+    }
+
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function* stoppableMethod() {
+        // here is the implementation of the algorithm
+        // that we want to control
+        let i = 0;
+        while (true) {
+            // note that yield is inside infinite loop!
+            yield i;
+            i += 1;
+        }
+    }
+
+    const generatorInstance = stoppableMethod();
+
+    // tick generator and perform update of the indicator
+    const nextStep = () => {
+        time()
+    }
+
+    // state to keep track of the setInterval id
+    const state = {
+        timeoutId: 0,
+    }
+
+    // start method progression
+    const start = () => {
+        // do not start interval if there is already an interval
+        // running
+        if (state.timeoutId === 0) {
+            state.timeoutId = setInterval(() => nextStep(), 3000)
+
+        }
+    }
+
+    // clear timeout to stop auto porgress
+    const stop = () => {
+        clearTimeout(state.timeoutId);
+        state.timeoutId = 0;
+    }
+
+
 </script>
 
 </html>
