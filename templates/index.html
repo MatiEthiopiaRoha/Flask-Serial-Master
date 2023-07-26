@@ -48,13 +48,14 @@
         </a>
     </nav>
 
+    <marquee behavior="scroll" scrollamount="10" direction="right">Gonder University</marquee>
 
     <section>
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
                     <label for="">SERIAL PORT</label>
-                    <select class="form-select">
+                    <select id="port_no" class="form-select">
                         <option value="COM1">COM1</option>
                         <option value="COM2">COM2</option>
                         <option value="COM3">COM3</option>
@@ -69,7 +70,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="">BAUD RATE</label>
-                    <select class="form-select">
+                    <select id="baudrate_no" class="form-select">
                         <option value="9600">9600</option>
                         <option value="14400">14400</option>
                         <option value="19200">19200</option>
@@ -82,7 +83,7 @@
                 </div>
                 <div class="col-md-4">
                     <br>
-                    <button type="button" class="btn btn-dark">CONNECT</button>
+                    <button type="button" class="btn btn-dark" onclick="connect()">CONNECT</button>
                 </div>
 
                 <div class="col-md-6">
@@ -228,12 +229,30 @@
 
     // Test Function
 
-    function time() {
-        var d = new Date();
-        var s = d.getSeconds();
-        var m = d.getMinutes();
-        var h = d.getHours();
-        console.log(h + ":" + m + ":" + s)
+    function connect() {
+       api()
+    }
+
+
+    function api() {
+
+        const port_no = document.getElementById('port_no').value;
+        const baudrate_no = document.getElementById('baudrate_no').value;
+        const buadrateno = parseInt(baudrate_no);
+        const finalVal = { "port": port_no, "baudrate": buadrateno };
+        console.log(finalVal)
+        var data = JSON.stringify(finalVal);
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                console.log(this.responseText);
+            }
+        });
+        xhr.open("POST", "/get-data");
+        xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.send(data);
     }
 
 
@@ -256,7 +275,7 @@
 
     // tick generator and perform update of the indicator
     const nextStep = () => {
-        time()
+        api()
     }
 
     // state to keep track of the setInterval id

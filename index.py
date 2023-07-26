@@ -42,6 +42,7 @@ def create():
     port = req['port']
     baudrate = req['baudrate']
     msg = ""
+    muck = [12,89,90,56,43]
     print(color.BOLD + "Arduino Serial Master\t " + port  + color.END + "\n")
     try:
         time_now = datetime.datetime.now()
@@ -77,7 +78,7 @@ def create():
         print(color.RED + "Something went wrong " + msg + color.END + "\n")
     finally:
         print(color.BLUE + "Operation finished \t ")
-    return msg
+    return muck
 
 
 
