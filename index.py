@@ -42,7 +42,10 @@ def create():
     port = req['port']
     baudrate = req['baudrate']
     msg = ""
-    muck = [12,89,90,56,43]
+    temperature = "10"
+    humidity = "20"
+    moisture = "30"
+    muck = temperature + humidity + moisture
     print(color.BOLD + "Arduino Serial Master\t " + port  + color.END + "\n")
     try:
         time_now = datetime.datetime.now()
