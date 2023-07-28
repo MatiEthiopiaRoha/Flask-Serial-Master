@@ -126,13 +126,16 @@
             <div class="text-center">
                 <div class="row">
                     <div class="col-md-4">
-                        <p id="temperature">Temperature</p>
+                        <p>Temperature</p>
+                        <p id="temperature"></p>
                     </div>
                     <div class="col-md-4">
-                        <p id="humidity">Humidity</p>
+                        <p>Humidity</p>
+                        <p id="humidity"></p>
                     </div>
                     <div class="col-md-4">
-                        <p id="moisture">Moisture</p>
+                        <p>Moisture</p>
+                        <p id="moisture"></p>
                     </div>
                 </div>
             </div>
@@ -251,10 +254,17 @@
             if (this.readyState === 4) {
                 console.log(this.responseText);
                 const data = (this.responseText)
-                console.log("-----------")
-                let arr = data.split(','); // split string by comma
-                console.log(arr);
-                console.log(typeof (arr))
+                let arr = data.split(',');
+
+                temperature.push(arr.at(0))
+                humidity.push(arr.at(1))
+                moisture.push(arr.at(2))
+                document.getElementById("temperature").innerHTML = arr.at(0);
+                document.getElementById("humidity").innerHTML = arr.at(1);
+                document.getElementById("moisture").innerHTML = arr.at(2);
+                console.log(temperature)
+                console.log(humidity)
+                console.log(moisture)
 
             }
         });

@@ -45,7 +45,7 @@ def create():
     temperature = "10"
     humidity = "20"
     moisture = "30"
-    muck = temperature + humidity + moisture
+    muck = temperature + "," + humidity + "," + moisture
     print(color.BOLD + "Arduino Serial Master\t " + port  + color.END + "\n")
     try:
         time_now = datetime.datetime.now()
@@ -53,7 +53,6 @@ def create():
         # ser.flush()
         # ser.baudrate = baudrate
         # ser.open()
-        
         ser = serial.Serial(
         # Serial Port to read the data from
         port=port,
