@@ -38,7 +38,7 @@
     </style>
 </head>
 
-<body>
+<body onload="chart_up()">
 
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="/application">
@@ -48,7 +48,10 @@
         </a>
     </nav>
 
-    <marquee behavior="scroll" scrollamount="10" direction="right">Gonder University</marquee>
+    <marquee behavior="scroll" scrollamount="10" direction="right" style="font-size: 34px;"><span
+            style="font-size: 34px; color:green">University </span> <span
+            style="font-size: 34px; color:yellow">of</span> <span style="font-size: 34px; color:red">Gonder</span>
+    </marquee>
 
     <section>
         <div class="container">
@@ -174,40 +177,7 @@
 
 </body>
 <script>
-    const temperature = []
-    const humidity = []
-    const moisture = []
-    const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
-    const serialChart = new Chart("serialChart", {
-        type: "line",
-        data: {
-            labels: xValues,
-            datasets: [{
-                label: 'Temperature',
-                data: temperature,
-                fill: false,
-                borderColor: '#34A853',
-                tension: 0.1
-            },
-            {
-                label: 'Humidity',
-                data: humidity,
-                fill: false,
-                borderColor: '#FBBC05',
-                tension: 0.1
-            },
-            {
-                label: 'Moisture',
-                data: moisture,
-                fill: false,
-                borderColor: '#EA4335',
-                tension: 0.1
-            }]
-        },
-        options: {
-            legend: { display: false }
-        }
-    });
+
 
     function displayInfoToaster() {
         toastr.options.timeOut = 1500; // 1.5s 
@@ -239,6 +209,9 @@
         api()
     }
 
+    const temperature = []
+    const humidity = []
+    const moisture = []
 
     function api() {
 
@@ -256,15 +229,19 @@
                 const data = (this.responseText)
                 let arr = data.split(',');
 
+
+
                 temperature.push(arr.at(0))
                 humidity.push(arr.at(1))
                 moisture.push(arr.at(2))
                 document.getElementById("temperature").innerHTML = arr.at(0);
                 document.getElementById("humidity").innerHTML = arr.at(1);
                 document.getElementById("moisture").innerHTML = arr.at(2);
-                console.log(temperature)
-                console.log(humidity)
-                console.log(moisture)
+                console.log(temperature);
+                console.log(humidity);
+                console.log(moisture);
+                chart_up();
+
 
             }
         });
@@ -274,6 +251,43 @@
         xhr.send(data);
     }
 
+
+    function chart_up() {
+
+        const xValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
+        const serialChart = new Chart("serialChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    label: 'Temperature',
+                    data: temperature,
+                    fill: false,
+                    borderColor: '#34A853',
+                    tension: 0.1
+                },
+                {
+                    label: 'Humidity',
+                    data: humidity,
+                    fill: false,
+                    borderColor: '#FBBC05',
+                    tension: 0.1
+                },
+                {
+                    label: 'Moisture',
+                    data: moisture,
+                    fill: false,
+                    borderColor: '#EA4335',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                legend: { display: false }
+            }
+        });
+
+
+    }
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));

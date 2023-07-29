@@ -90,6 +90,12 @@ def application():
 
 
 
+@app.route('/map')
+def map():
+   return render_template('map.html')
+
+
+
 
 
 # main driver function
