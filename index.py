@@ -3,6 +3,9 @@ import datetime
 import time
 import logging as logger
 import serial
+import random
+from flask_session import *
+
 
 logger.basicConfig(level="DEBUG")
 
@@ -18,6 +21,8 @@ class color:
    BOLD = '\033[1m'
    UNDERLINE = '\033[4m'
    END = '\033[0m'
+global PORT_NO
+global BAUDRATE  
 
 app = Flask(__name__,static_folder='static')
 
@@ -42,9 +47,10 @@ def create():
     port = req['port']
     baudrate = req['baudrate']
     msg = ""
-    temperature = "10"
-    humidity = "20"
-    moisture = "30"
+    temperature = str(random.randrange(1,100))
+    humidity = str(random.randrange(1,100))
+    moisture = str(random.randrange(1,100))
+    print(type(temperature))
     muck = temperature + "," + humidity + "," + moisture
     print(color.BOLD + "Arduino Serial Master\t " + port  + color.END + "\n")
     try:
@@ -84,6 +90,55 @@ def create():
 
 
 
+
+@app.route('/connect', methods=['POST'])
+def connect():
+    req = request.get_json()
+    port = req['port']
+    baudrate = req['baudrate']
+    try:
+        time_now = datetime.datetime.now()
+        # ser = serial.Serial(port)
+        # ser.flush()
+        # ser.baudrate = baudrate
+        # ser.open()
+        ser = serial.Serial(
+        # Serial Port to read the data from
+        port=port,
+        #Rate at which the information is shared to the communication channel
+        baudrate = baudrate,
+        #Applying Parity Checking (none in this case)
+        parity=serial.PARITY_NONE,
+        # Pattern of Bits to be read
+        stopbits=serial.STOPBITS_ONE,
+        # Total number of bits to be read
+        bytesize=serial.EIGHTBITS,
+        # Number of serial commands to accept before timing out
+        timeout=1
+        )
+        ser.open()
+        if ser.is_open == True:
+             PORT_NO = port
+             BAUDRATE = baudrate
+             print(PORT_NO)
+             print(BAUDRATE)
+            #  return 'CONNECTED' 
+             return render_template("index.html")            
+    except:
+        msg = "Not Connected to \t" + port
+        print(color.RED + "Something went wrong " + color.END + "\n")
+    finally:
+        print(color.BLUE + "Operation finished \t ")
+        PORT_NO = port
+        BAUDRATE = baudrate
+        print(PORT_NO)
+        print(BAUDRATE)
+    # return 'DISCONNECTED'
+    return render_template("index.html")            
+
+
+
+
 @app.route('/application')
 def application():
    return render_template('index.html')
@@ -94,6 +149,15 @@ def application():
 def map():
    return render_template('map.html')
 
+
+@app.route('/chart')
+def chart():
+   return render_template('chart.html')
+
+
+@app.route('/setup')
+def setup():
+   return render_template('setup.html')
 
 
 

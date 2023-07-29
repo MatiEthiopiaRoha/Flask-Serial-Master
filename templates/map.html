@@ -59,12 +59,109 @@
 </style>
 
 
-<body>
+<body onload="start()">
     <div id="map"></div>
 
     <!-- leaflet js  -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
+
+
+        function connect() {
+            api()
+        }
+    
+        const temperature = []
+        const humidity = []
+        const moisture = []
+    
+        function api() {
+    
+            const port_no = "COM1";
+            const baudrate_no = 9600;
+            const buadrateno = parseInt(baudrate_no);
+            const finalVal = { "port": port_no, "baudrate": buadrateno };
+            console.log(finalVal)
+            var data = JSON.stringify(finalVal);
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                    const data = (this.responseText)
+                    let arr = data.split(',');
+    
+    
+    
+                    temperature.push(arr.at(0))
+                    humidity.push(arr.at(1))
+                    moisture.push(arr.at(2))
+                    document.getElementById("temperature").innerHTML = arr.at(0);
+                    document.getElementById("humidity").innerHTML = arr.at(1);
+                    document.getElementById("moisture").innerHTML = arr.at(2);
+                    console.log(temperature);
+                    console.log(humidity);
+                    console.log(moisture);
+                  
+    
+    
+                }
+            });
+            xhr.open("POST", "/get-data");
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.send(data);
+        }
+
+
+
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    
+        function* stoppableMethod() {
+            // here is the implementation of the algorithm
+            // that we want to control
+            let i = 0;
+            while (true) {
+                // note that yield is inside infinite loop!
+                yield i;
+                i += 1;
+            }
+        }
+    
+        const generatorInstance = stoppableMethod();
+    
+        // tick generator and perform update of the indicator
+        const nextStep = () => {
+            api()
+        }
+    
+        // state to keep track of the setInterval id
+        const state = {
+            timeoutId: 0,
+        }
+    
+        // start method progression
+        const start = () => {
+            // do not start interval if there is already an interval
+            // running
+            if (state.timeoutId === 0) {
+                state.timeoutId = setInterval(() => nextStep(), 3000)
+    
+            }
+        }
+    
+        // clear timeout to stop auto porgress
+        const stop = () => {
+            clearTimeout(state.timeoutId);
+            state.timeoutId = 0;
+        }
+
+
+
+
         // Creating map options
         var mapOptions = {
             center: [17.385044, 78.486671],
@@ -92,13 +189,13 @@
         <hr>
         <br>
         <p>Temperature</p>
-        <p id="temperature">10</p>
+        <p id="temperature"></p>
         <br>
         <p>Humidity</p>
-        <p id="humidity">20</p>
+        <p id="humidity"></p>
         <br>
         <p>Moisture</p>
-        <p id="moisture">30</p>
+        <p id="moisture"></p>
         <hr>
 
         `).openPopup();
