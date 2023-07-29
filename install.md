@@ -4,6 +4,7 @@
 // python -m pip install pyserial
 // python -m pip install logger
 // python -m pip install Jinja2
+// python -m pip install Flask-Session
 
 <h1>Linux</h1>
 //Install Flask
@@ -15,8 +16,12 @@ pip install logger
 //Install Python Serial
 pip install pyserial
 
-//install Jinja2 Templet Engine
+//Install Jinja2 Templet Engine
 pip install Jinja2
+
+
+//Install Flask-Session
+pip install Flask-Session
 
 // RUN APPLICATION
 python index.py
