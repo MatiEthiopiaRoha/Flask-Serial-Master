@@ -158,10 +158,10 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-primary">START MOTER</button>
+                    <button  onclick="start_motor()" type="button" class="btn btn-primary">START MOTER</button>
                 </div>
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-primary">STOP MOTER</button>
+                    <button onclick="stop_motor()" type="button" class="btn btn-primary">STOP MOTER</button>
                 </div>
             </div>
         </div>
@@ -175,7 +175,51 @@
 
 </body>
 <script>
+  function start_motor(){
 
+    console.log("LOW")
+
+    const finalVal = { "data": "HIGH"};
+    console.log(finalVal)
+    var data = JSON.stringify(finalVal);
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            //console.log(this.responseText);
+            const data = (this.responseText)
+
+        }
+    });
+    xhr.open("POST", "/start-motor");
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.send(data);
+  }
+
+
+  function stop_motor(){
+
+    console.log("LOW")
+
+    const finalVal = { "data": "LOW"};
+    console.log(finalVal)
+    var data = JSON.stringify(finalVal);
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            //console.log(this.responseText);
+            const data = (this.responseText)
+
+        }
+    });
+    xhr.open("POST", "/stop-motor");
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.send(data);
+    
+  }
 
     function displayInfoToaster() {
         toastr.options.timeOut = 1500; // 1.5s 
