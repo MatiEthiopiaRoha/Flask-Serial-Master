@@ -49,7 +49,7 @@
     </style>
 </head>
 
-<body onload="">
+<body>
 
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="/application">
@@ -57,13 +57,48 @@
                 <img src="/static/logo.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
             </div>
         </a>
+        <a class="navbar-brand" href="/map">
+            <div class="logo-img">
+                <img src="/static/map.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
+            </div>
+        </a>
+
+        <a class="navbar-brand" href="/chart">
+            <div class="logo-img">
+                <img src="/static/chart.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
+            </div>
+        </a>
+
+        <a class="navbar-brand" href="/setup">
+            <div class="logo-img">
+                <img src="/static/settings.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
+            </div>
+        </a>
     </nav>
-    
 
 
-    <h3>PORT  {{session['port']}}</h3>
-    <h3>Baudrate {{baudrate}}</h3>
-    {{ session.baudrate }}
+    <br>
+    <hr>
+    <br>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>PORT</p>
+                    <p id="port_no">{{ session['port'] }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p>BAUDRATE</p>
+                    <p id="baudrate_no">{{ session['baudrate'] }}</p>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+
 
     <section>
         <div class="container text-center">
@@ -176,7 +211,7 @@
     const humidity = []
     const moisture = []
 
-   
+
 
 
     function sleep(ms) {
@@ -235,13 +270,10 @@
     };
 
     function onRefresh(chart) {
-
-        
-
         const port_no = document.getElementById('port_no').value;
         const baudrate_no = document.getElementById('baudrate_no').value;
         const buadrateno = parseInt(baudrate_no);
-        const finalVal = { "port": port_no, "baudrate": buadrateno };
+        const finalVal = { "port": "", "baudrate": "" };
         console.log(finalVal)
         var data = JSON.stringify(finalVal);
         var xhr = new XMLHttpRequest();
@@ -262,12 +294,9 @@
                 console.log("moisture")
                 console.log(arr.at(2))
 
-
                 document.getElementById("temperature").innerHTML = arr.at(0);
                 document.getElementById("humidity").innerHTML = arr.at(1);
                 document.getElementById("moisture").innerHTML = arr.at(2);
-
-
 
                 const x = (chart.config.data.datasets[0].data)
                 const y = (chart.config.data.datasets[1].data)
@@ -362,7 +391,7 @@
 
 
 
-   
+
     window.onload = function () {
         var ctx = document.getElementById('myChart').getContext('2d');
         window.myChart = new Chart(ctx, config);

@@ -44,22 +44,70 @@
     }
 
     .card {
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         transition: 0.3s;
         width: 40%;
-      }
-      
-      .card:hover {
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-      }
-      
-      .container {
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .container {
         padding: 2px 16px;
-      }
+    }
 </style>
 
 
 <body onload="start()">
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="/application">
+            <div class="logo-img">
+                <img src="/static/logo.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
+            </div>
+        </a>
+        <a class="navbar-brand" href="/map">
+            <div class="logo-img">
+                <img src="/static/map.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
+            </div>
+        </a>
+
+        <a class="navbar-brand" href="/chart">
+            <div class="logo-img">
+                <img src="/static/chart.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
+            </div>
+        </a>
+
+        <a class="navbar-brand" href="/setup">
+            <div class="logo-img">
+                <img src="/static/settings.png" width="30" height="30" class="d-inline-block align-top rounded" alt="">
+            </div>
+        </a>
+    </nav>
+
+    <!-- <section>
+        <div class="container">
+
+         <div class="row">
+            <div class="col-md-4">
+                <label for="lat">Latitude</label>
+                <input  class="form-control" type="text" id="lat">
+            </div>
+
+            <div class="col-md-4">
+                <label for="lng">Longitude</label>
+                <input class="form-control" type="text" id="lng">
+            </div>
+
+            <div class="col-md-4">
+                <br>
+                <button class="btn btn-primary" >Add Location</button>
+            </div>
+         </div>
+
+        </div>
+    </section> -->
+
     <div id="map"></div>
 
     <!-- leaflet js  -->
@@ -70,42 +118,37 @@
         function connect() {
             api()
         }
-    
+
         const temperature = []
         const humidity = []
         const moisture = []
-    
+
         function api() {
-    
-            const port_no = "COM1";
-            const baudrate_no = 9600;
-            const buadrateno = parseInt(baudrate_no);
-            const finalVal = { "port": port_no, "baudrate": buadrateno };
+
+            const finalVal = { "port": "", "baudrate": "" };
             console.log(finalVal)
             var data = JSON.stringify(finalVal);
             var xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
             xhr.addEventListener("readystatechange", function () {
-                if (this.readyState === 4) {
+                if (this.readyState === 4)
                     console.log(this.responseText);
-                    const data = (this.responseText)
-                    let arr = data.split(',');
-    
-    
-    
-                    temperature.push(arr.at(0))
-                    humidity.push(arr.at(1))
-                    moisture.push(arr.at(2))
-                    document.getElementById("temperature").innerHTML = arr.at(0);
-                    document.getElementById("humidity").innerHTML = arr.at(1);
-                    document.getElementById("moisture").innerHTML = arr.at(2);
-                    console.log(temperature);
-                    console.log(humidity);
-                    console.log(moisture);
-                  
-    
-    
-                }
+                const data = (this.responseText)
+                let arr = data.split(',');
+
+                temperature.push(arr.at(0))
+                humidity.push(arr.at(1))
+                moisture.push(arr.at(2))
+                document.getElementById("temperature").innerHTML = arr.at(0);
+                document.getElementById("humidity").innerHTML = arr.at(1);
+                document.getElementById("moisture").innerHTML = arr.at(2);
+                console.log(temperature);
+                console.log(humidity);
+                console.log(moisture);
+
+
+
+
             });
             xhr.open("POST", "/get-data");
             xhr.setRequestHeader("Content-Type", "application/json; charset=utf8");
@@ -119,7 +162,7 @@
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
-    
+
         function* stoppableMethod() {
             // here is the implementation of the algorithm
             // that we want to control
@@ -130,29 +173,29 @@
                 i += 1;
             }
         }
-    
+
         const generatorInstance = stoppableMethod();
-    
+
         // tick generator and perform update of the indicator
         const nextStep = () => {
             api()
         }
-    
+
         // state to keep track of the setInterval id
         const state = {
             timeoutId: 0,
         }
-    
+
         // start method progression
         const start = () => {
             // do not start interval if there is already an interval
             // running
             if (state.timeoutId === 0) {
                 state.timeoutId = setInterval(() => nextStep(), 3000)
-    
+
             }
         }
-    
+
         // clear timeout to stop auto porgress
         const stop = () => {
             clearTimeout(state.timeoutId);
@@ -164,7 +207,7 @@
 
         // Creating map options
         var mapOptions = {
-            center: [17.385044, 78.486671],
+            center: [12.600000,37.466667],
             zoom: 10
         }
         // Creating a map object
@@ -177,7 +220,7 @@
         map.addLayer(layer);
 
         // Creating a marker
-        var marker = L.marker([17.385044, 78.486671]);
+        var marker = L.marker([ 12.600000,37.466667 ]);
 
         // Adding marker to the map
         marker.addTo(map);

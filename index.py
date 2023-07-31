@@ -21,11 +21,12 @@ class color:
    BOLD = '\033[1m'
    UNDERLINE = '\033[4m'
    END = '\033[0m'
-global PORT_NO
-global BAUDRATE  
+
 
 app = Flask(__name__,static_folder='static')
-
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 @app.route('/')
 def home():
@@ -40,12 +41,54 @@ def status():
      return Response(data, mimetype='application/json')
      
 
-
-@app.route('/get-data', methods=['POST'])
-def create():
+@app.route('/connect', methods=['POST'])
+def connect():
     req = request.get_json()
     port = req['port']
     baudrate = req['baudrate']
+    session["port"] = req['port']
+    session["baudrate"] = req['baudrate']
+    try:
+        time_now = datetime.datetime.now()
+        # ser = serial.Serial(port)
+        # ser.flush()
+        # ser.baudrate = baudrate
+        # ser.open()
+        ser = serial.Serial(
+        # Serial Port to read the data from
+        port=port,
+        #Rate at which the information is shared to the communication channel
+        baudrate = baudrate,
+        #Applying Parity Checking (none in this case)
+        parity=serial.PARITY_NONE,
+        # Pattern of Bits to be read
+        stopbits=serial.STOPBITS_ONE,
+        # Total number of bits to be read
+        bytesize=serial.EIGHTBITS,
+        # Number of serial commands to accept before timing out
+        timeout=1
+        )
+        ser.open()
+        if ser.is_open == True:
+            #  return 'CONNECTED' 
+             return render_template("index.html")            
+    except:
+        msg = "Not Connected to \t" + port
+        print(color.RED + "Something went wrong " + color.END + "\n")
+    finally:
+        print(color.BLUE + "Operation finished \t ")
+      
+    # return 'DISCONNECTED'
+    return render_template("index.html")            
+
+
+
+
+@app.route('/get-data', methods=['POST'])
+def get_data():
+    port = session["port"]
+    baudrate = session['baudrate']
+    
     msg = ""
     temperature = str(random.randrange(1,100))
     humidity = str(random.randrange(1,100))
@@ -82,7 +125,7 @@ def create():
         elif ser.is_open == False:
             print(color.CYAN +  "PORT Closed:\t  " + port + color.END + "Time" + time_now + "\n")                
     except:
-        msg = "Not Connected to \t" + port
+        msg = "Not Connected to \t" + port 
         print(color.RED + "Something went wrong " + msg + color.END + "\n")
     finally:
         print(color.BLUE + "Operation finished \t ")
@@ -90,51 +133,6 @@ def create():
 
 
 
-
-@app.route('/connect', methods=['POST'])
-def connect():
-    req = request.get_json()
-    port = req['port']
-    baudrate = req['baudrate']
-    try:
-        time_now = datetime.datetime.now()
-        # ser = serial.Serial(port)
-        # ser.flush()
-        # ser.baudrate = baudrate
-        # ser.open()
-        ser = serial.Serial(
-        # Serial Port to read the data from
-        port=port,
-        #Rate at which the information is shared to the communication channel
-        baudrate = baudrate,
-        #Applying Parity Checking (none in this case)
-        parity=serial.PARITY_NONE,
-        # Pattern of Bits to be read
-        stopbits=serial.STOPBITS_ONE,
-        # Total number of bits to be read
-        bytesize=serial.EIGHTBITS,
-        # Number of serial commands to accept before timing out
-        timeout=1
-        )
-        ser.open()
-        if ser.is_open == True:
-             PORT_NO = port
-             BAUDRATE = baudrate
-             print(PORT_NO)
-             print(BAUDRATE)
-            #  return 'CONNECTED' 
-             return render_template("index.html")            
-    except:
-        msg = "Not Connected to \t" + port
-        print(color.RED + "Something went wrong " + color.END + "\n")
-    finally:
-        print(color.BLUE + "Operation finished \t ")
-        PORT_NO = port
-        BAUDRATE = baudrate
-        print(PORT_NO)
-        print(BAUDRATE)
-    # return 'DISCONNECTED'
-    return render_template("index.html")            
 
 
 
