@@ -176,10 +176,6 @@ def stop_motor():
     baudrate = session['baudrate']
     try:
         time_now = datetime.datetime.now()
-        # ser = serial.Serial(port)
-        # ser.flush()
-        # ser.baudrate = baudrate
-        # ser.open()
         ser = serial.Serial(
         # Serial Port to read the data from
         port=port,
