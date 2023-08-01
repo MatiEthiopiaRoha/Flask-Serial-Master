@@ -92,75 +92,32 @@ def get_data():
 def start_motor():
     port = session["port"]
     baudrate = session['baudrate']
-    try:
-        time_now = datetime.datetime.now()
-        # ser = serial.Serial(port)
-        # ser.flush()
-        # ser.baudrate = baudrate
-        # ser.open()
-        ser = serial.Serial(
-        # Serial Port to read the data from
-        port=port,
-        #Rate at which the information is shared to the communication channel
-        baudrate = baudrate,
-        #Applying Parity Checking (none in this case)
-        parity=serial.PARITY_NONE,
-        # Pattern of Bits to be read
-        stopbits=serial.STOPBITS_ONE,
-        # Total number of bits to be read
-        bytesize=serial.EIGHTBITS,
-        # Number of serial commands to accept before timing out
-        timeout=1
-        )
-        ser.open()
-        if ser.is_open == True:
-             ser.write("HIGH".encode())
-             return 'CONNECTED' 
-            #  return render_template("index.html")            
-    except:
-        msg = "Not Connected to \t" + port
-        print(color.RED + "Something went wrong " + color.END + "\n")
-    finally:
-        print(color.BLUE + "Operation finished \t ")
-      
-    return 'HIGH'
-    # return render_template("index.html")            
+    ser = serial.Serial()
+    ser.baudrate = baudrate
+    ser.port = port
+    ser.open()
+    if ser.is_open:
+        ser.write(b'H')
+        # ser.close()
+        return "LED HIGH"
+    else:
+     return "LED OFF"
 
 
 @app.route('/stop-motor', methods=['POST'])
 def stop_motor():
     port = session["port"]
     baudrate = session['baudrate']
-    try:
-        time_now = datetime.datetime.now()
-        ser = serial.Serial(
-        # Serial Port to read the data from
-        port=port,
-        #Rate at which the information is shared to the communication channel
-        baudrate = baudrate,
-        #Applying Parity Checking (none in this case)
-        parity=serial.PARITY_NONE,
-        # Pattern of Bits to be read
-        stopbits=serial.STOPBITS_ONE,
-        # Total number of bits to be read
-        bytesize=serial.EIGHTBITS,
-        # Number of serial commands to accept before timing out
-        timeout=1
-        )
-        ser.open()
-        if ser.is_open == True:
-             ser.write("LOW".encode())
-             return 'CONNECTED' 
-            #  return render_template("index.html")            
-    except:
-        msg = "Not Connected to \t" + port
-        print(color.RED + "Something went wrong " + color.END + "\n")
-    finally:
-        print(color.BLUE + "Operation finished \t ")
-      
-    return 'LOW'
-    # return render_template("index.html")            
-
+    ser = serial.Serial()
+    ser.baudrate = baudrate
+    ser.port = port
+    ser.open()
+    if ser.is_open:
+        ser.write(b'L')
+        ser.close()
+        return "LED HIGH"
+    else:
+     return "LED OFF"
 
 
 
