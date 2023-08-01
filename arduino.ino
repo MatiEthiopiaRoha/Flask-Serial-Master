@@ -71,7 +71,5 @@ if (Serial.available() > 0) {
     }else{
       digitalWrite(proximity_out, HIGH);
     }
-    // proximity_pin
-    // proximity_out
     }
 
