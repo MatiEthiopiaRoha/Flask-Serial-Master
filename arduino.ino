@@ -35,31 +35,28 @@ void loop() {
 	float t = DHT.temperature;        // Read temperature
 	float h = DHT.humidity;  // Read humidity      
 
-
 	// Serial.print(t);   // Temperature in celsius
 	// Serial.print((t*9.0)/5.0+32.0);        // Convert celsius to fahrenheit
 
+    float moisture_percentage;
+    int sensor_analog;
+    sensor_analog = analogRead(sensor_pin);
+    moisture_percentage = ( 100 - ( (sensor_analog/1023.00) * 100 ) );
 
 
-  float moisture_percentage;
-  int sensor_analog;
-  sensor_analog = analogRead(sensor_pin);
-  moisture_percentage = ( 100 - ( (sensor_analog/1023.00) * 100 ) );
+    Serial.print(t);
+    Serial.print(",");
+    Serial.print(h);
+    Serial.print(",");
+    Serial.print(moisture_percentage);
+    delay(500);
 
+    }
 
-  Serial.print(t);
-  Serial.print(",");
-  Serial.print(h);
-  Serial.print(",");
-  Serial.print(moisture_percentage);
-  delay(500);
+    void motor_high() {
+    digitalWrite(led, HIGH);
+    }
 
-}
-
-void motor_high() {
- digitalWrite(led, HIGH);
-}
-
-void motor_low() {
- digitalWrite(led, HIGH);
-}
+    void motor_low() {
+    digitalWrite(led, HIGH);
+    }
