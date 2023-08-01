@@ -49,63 +49,42 @@ def connect():
     ser = serial.Serial()
     ser.baudrate = baudrate
     ser.port = port
-    ser.open()
-    if ser.is_open:
-       line = ser.readline()
-       output = line.decode()
-       print(output)
-        
-    return render_template("index.html")            
-
-
+    try:
+       ser.open()
+       if ser.is_open:
+        line = ser.readline()
+        output = line.decode()
+        print(output)
+        ser.close()
+        return 'CONNECTED'                 
+    except:
+       print("An exception occurred")
+    return 'DISCONNECTED'
 
 
 @app.route('/get-data', methods=['POST'])
 def get_data():
     port = session["port"]
     baudrate = session['baudrate']
-    
-    msg = ""
     temperature = str(random.randrange(1,100))
     humidity = str(random.randrange(1,100))
     moisture = str(random.randrange(1,100))
     print(type(temperature))
     muck = temperature + "," + humidity + "," + moisture
     print(color.BOLD + "Arduino Serial Master\t " + port  + color.END + "\n")
-    try:
-        time_now = datetime.datetime.now()
-        # ser = serial.Serial(port)
-        # ser.flush()
-        # ser.baudrate = baudrate
-        # ser.open()
-        ser = serial.Serial(
-        # Serial Port to read the data from
-        port=port,
-        #Rate at which the information is shared to the communication channel
-        baudrate = baudrate,
-        #Applying Parity Checking (none in this case)
-        parity=serial.PARITY_NONE,
-        # Pattern of Bits to be read
-        stopbits=serial.STOPBITS_ONE,
-        # Total number of bits to be read
-        bytesize=serial.EIGHTBITS,
-        # Number of serial commands to accept before timing out
-        timeout=1
-        )
-        ser.open()
-        if ser.is_open == True:
-            while 1:
-                data = ser.readline()
-                print(data)
-            print(color.GREEN + "Arduino PORT:\t " + port + color.END + "Time" + time_now + "\n")
-        elif ser.is_open == False:
-            print(color.CYAN +  "PORT Closed:\t  " + port + color.END + "Time" + time_now + "\n")                
-    except:
-        msg = "Not Connected to \t" + port 
-        print(color.RED + "Something went wrong " + msg + color.END + "\n")
-    finally:
-        print(color.BLUE + "Operation finished \t ")
-    return muck
+    ser = serial.Serial()
+    ser.baudrate = baudrate
+    ser.port = port
+    ser.open()
+    if ser.is_open:
+        line = ser.read(15)
+        output = line.decode()
+        print('-----')
+        print(output)
+        # ser.close()
+        return output
+    else:
+     return "muck"
 
 
 
