@@ -34,6 +34,7 @@ if (Serial.available() > 0) {
     }
   }
 
+  sensor_pin_high();
   int readData = DHT.read11(outPin);
 
 	float t = DHT.temperature;        // Read temperature
@@ -64,7 +65,7 @@ if (Serial.available() > 0) {
 
    void sensor_pin_high() {
     int sensor_value = digitalRead(proximity_pin);
-    
+
     if(sensor_value == LOW){
       digitalWrite(proximity_out, LOW);
     }else{
